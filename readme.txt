@@ -28,7 +28,7 @@ Installation is standard and straight forward.
 == Frequently Asked Questions ==
 
 = How do I use Markdown syntax? =
-For information on how to use Markdown sytnax pleae read: [http://daringfireball.net/projects/markdown/syntax](Markdown: syntax).
+For information on how to use Markdown sytnax pleae read: [Markdown: syntax](http://daringfireball.net/projects/markdown/syntax).
 
 = What happens to the post content if I uninstall the plug-in? =
 The plug-in uses Markdown to generate the appropriate HTML prior to the post saving to the database. When you edit a post, it is converted back to Markdown syntax. 
