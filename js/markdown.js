@@ -1,5 +1,4 @@
 jQuery(document).ready(function($) {                
-		console.log('test');
 		$('#wmd-button-bar-help').hide();
 		$('pre').not('.wmd-help').addClass('prettyprint');
 

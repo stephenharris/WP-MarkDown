@@ -13,7 +13,9 @@ Allows Markdown to be enabled in posts, comments and bbPress forums.
 This plug-in allows you to write posts (of any post type) using the Markdown syntax. The plug-in converts the Markdown into HTML prior to saving the post. When editing a post, the plug-in converts
 it back into Markdown syntax. 
 
-The plug-in also allows you to enable Markdown in **comments** and **BBPress forums**. In these instances the plug-in adds a toolbar, and preview of the processed Markdown with [Prettify](http://code.google.com/p/google-code-prettify/) syntax highlighter applied (similiar to that used in the Stack Exchange websites such as [WordPress Stack Exchange](http://wordpress.stackexchange.com/))
+The plug-in also allows you to enable Markdown in **comments** and **BBPress forums**. In these instances the plug-in adds a toolbar, and preview of the processed Markdown with [Prettify](http://code.google.com/p/google-code-prettify/) syntax highlighter applied (similiar to that used in the Stack Exchange websites such as [WordPress Stack Exchange](http://wordpress.stackexchange.com/)).
+
+WP-Markdown stores the processed HTML, so deactivating the plug-in will not affect your posts, comments or bbPress forums.
 
 
 == Installation ==
@@ -46,9 +48,13 @@ Once the plug-in is uninstalled you'll simply rever to editing the posts' HTML.
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.0 =
 * Initial release
 
+= 1.1 =
+* Added option to replace TinyMCE with Markdown help bar on post editor
 
 == Upgrade Notice ==
 
+= 1.1 =
+* Added option to enable  the Markdown help bar on the backend post editor. Simple check Markdown help bar for 'Post editor' in the settings.
