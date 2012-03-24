@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.1
+Version: 1.1.1
 Author: Stephen Harris
 Author URI: http://HarrisWebSolutions.co.uk/blog
 */
@@ -246,7 +246,6 @@ class WordPress_Markdown {
 		if($this->is_Markdownable((int) $id)){
 			$md = new Markdownify;
 			$content = $md->parseString($content);
-			$content = stripslashes($content);
 		}
 		return $content;
 	}
