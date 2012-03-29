@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.1.1
+Version: 1.1.2
 Author: Stephen Harris
 Author URI: http://HarrisWebSolutions.co.uk/blog
 */
@@ -27,7 +27,7 @@ class WordPress_Markdown {
 	var $domain = 'markdown';
 
 	//Version
-	static $version =1.1;
+	static $version ='1.1.2';
 
 	//Options and defaults
 	static $options = array(
@@ -61,10 +61,10 @@ class WordPress_Markdown {
 
 	public function init() {
 		//Allow translations
-		load_plugin_textdomain( $this->domain, false, basename(dirname(__FILE__)).'/languages');
+		load_plugin_textdomain( 'markdown', false, basename(dirname(__FILE__)).'/languages');
 
 		//Markdown posts and comments
-		add_filter('pre_comment_content',array($this,'pre_comment_content'));
+		add_filter('pre_comment_content',array($this,'pre_comment_content'),5);
 		add_filter( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ), 10, 2 );
 
 		//Convert HTML to Markdown (posts, comments, BBPress front-end editing)
@@ -94,9 +94,9 @@ class WordPress_Markdown {
 	function admin_init(){
 		register_setting('writing',$this->domain, array($this,'validate'));
 		add_settings_section( $this->domain.'_section', 'MarkDown', array($this,'settings'), 'writing'); 
-		add_settings_field($this->domain.'_posttypes', __('Enable MarkDown for:',$this->domain), array($this,'settings_posttypes'), 'writing', $this->domain.'_section');
-		add_settings_field($this->domain.'_markdownbar', __('Enable MarkDown help bar for:',$this->domain), array($this,'settings_markdownbar'), 'writing', $this->domain.'_section');
-		add_settings_field($this->domain.'_prettify', __('Enable Prettify syntax highlighter:',$this->domain), array($this,'settings_prettify'), 'writing', $this->domain.'_section');
+		add_settings_field($this->domain.'_posttypes', __('Enable MarkDown for:', 'markdown'), array($this,'settings_posttypes'), 'writing', $this->domain.'_section');
+		add_settings_field($this->domain.'_markdownbar', __('Enable MarkDown help bar for:', 'markdown'), array($this,'settings_markdownbar'), 'writing', $this->domain.'_section');
+		add_settings_field($this->domain.'_prettify', __('Enable Prettify syntax highlighter:', 'markdown'), array($this,'settings_prettify'), 'writing', $this->domain.'_section');
 
 		//Remove html tab for markdown posts
 		add_filter( 'user_can_richedit', array($this,'can_richedit'), 99 );

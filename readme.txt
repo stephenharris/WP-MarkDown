@@ -4,7 +4,7 @@ Donate link: http://www.harriswebsolutions.co.uk/blog/
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
 
@@ -47,6 +47,9 @@ Once the plug-in is uninstalled you'll simply rever to editing the posts' HTML.
 
 
 == Changelog ==
+
+= 1.1.2 =
+* Fixed bug relating to comments by logged out users
 
 = 1.1.1 =
 * Fixed backslash bug
