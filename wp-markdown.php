@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.1.3
+Version: 1.1.4
 Author: Stephen Harris
 Author URI: http://HarrisWebSolutions.co.uk/blog
 */
@@ -27,7 +27,7 @@ class WordPress_Markdown {
 	var $domain = 'markdown';
 
 	//Version
-	static $version ='1.1.3';
+	static $version ='1.1.4';
 
 	//Options and defaults
 	static $options = array(
@@ -66,8 +66,10 @@ class WordPress_Markdown {
 		//Markdown posts and comments
 		add_filter('pre_comment_content',array($this,'pre_comment_content'),5);
 		add_filter( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ), 10, 2 );
+		add_filter( 'wp_insert_post_data', array( $this, 'un_wpautop' ), 11, 2 );
 
 		//Convert HTML to Markdown (posts, comments, BBPress front-end editing)
+		add_filter( 'edit_post_content', array( $this, 'wpautop' ), 10, 2 );
 		add_filter( 'edit_post_content', array( $this, 'edit_post_content' ), 10, 2 );
 		add_filter( 'comment_edit_pre',  array( $this, 'edit_comment_content' ));
 		add_filter('bbp_get_form_reply_content',array( $this, 'bbpress_edit_reply' ));
@@ -240,14 +242,44 @@ class WordPress_Markdown {
 		return $data;
 	}
 
+	//Replace <p> tags that are added when converting  markdown --> HTML. 
+	//These are added back in when editing (see $this->wpautop)
+	//They remain stripped for displaying (so oembed works).
+	public function un_wpautop($data,$postarr){
+		if($this->is_Markdownable($data['post_type'])|| ($data['post_type'] =='revision' && $this->is_Markdownable($data['post_parent']))){
+			$s = $data['post_content'];
+			//remove any new lines already in there
+			$s = str_replace("\n", "", $s);
+
+			//remove all <p>
+			$s = str_replace("<p>", "", $s);
+
+			//replace <br /> with \n
+			$s = str_replace(array("<br />", "<br>", "<br/>"), "\n", $s);
+
+			//replace </p> with \n\n
+			$s = str_replace("</p>", "\n\n", $s);       
+
+			$data['post_content'] = $s;
+		}
+		return $data;      
+	}
+
 
 	/*
 	* Convert HTML to MarkDown for editing
 	*/
+	//Add <p> tags for markdown. These a replaced prior to saving to database. See $this->un_wpautop.
+	public function wpautop($content, $id){
+		if($this->is_Markdownable((int) $id)){
+			$content = wpautop($content);
+		}
+		return $content;
+	}
 	//Post content
 	public function edit_post_content( $content, $id ) {
 		if($this->is_Markdownable((int) $id)){
-			$md = new Markdownify;
+			$md = new Markdownify_Extra;
 			$content = $md->parseString($content);
 		}
 		return $content;
@@ -256,7 +288,7 @@ class WordPress_Markdown {
 	//Comment content
 	public function edit_comment_content( $content ) {
 		if($this->is_Markdownable('comment')){
-			$md = new Markdownify;
+			$md = new Markdownify_Extra;
 			$content = htmlspecialchars_decode($content);
 			$content = $md->parseString($content);
 			$content = esc_html($content);
@@ -272,7 +304,7 @@ class WordPress_Markdown {
 	}
 	public function bbpress_edit( $content='', $type='' ) {
 		if($this->is_Markdownable($type)){
-			$md = new Markdownify;
+			$md = new Markdownify_Extra;
 			$content = htmlspecialchars_decode($content);
 			$content = $md->parseString($content);
 			$content = esc_attr($content);
@@ -317,11 +349,8 @@ class WordPress_Markdown {
 			wp_enqueue_script('markdown');
 			wp_enqueue_style('md_style');
 		$id = esc_attr($id);
-       	 return "<div class='wmd-panel'><div id='wmd-button-bar{$id}'></div>
-				<div id='wmd-button-bar-help'>
-        <p>
-            To create code blocks or other preformatted text, indent by four spaces:
-        </p>
+
+		$help = apply_filters('wpmarkdown_help_text'," <p>To create code blocks or other preformatted text, indent by four spaces:</p>
         <pre class='wmd-help'><span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>This will be displayed in a monospaced font. The first four 
 <span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>spaces will be stripped off, but all other whitespace
 <span class='wmd-help-spaces'>&nbsp;&nbsp;&nbsp;&nbsp;</span>will be preserved.
@@ -332,9 +361,9 @@ class WordPress_Markdown {
         <p>
             To create not a block, but an inline code span, use backticks:
         </p>
-        <pre class='wmd-help'>Here is some inline `code`.</pre>
-	For more help see <a href='http://daringfireball.net/projects/markdown/syntax' rel='no-follow'> http://daringfireball.net/projects/markdown/syntax</a>
-				</div>";
+        <pre class='wmd-help'>Here is some inline `code`.</pre> <p>For more help see <a href='http://daringfireball.net/projects/markdown/syntax' rel='no-follow'> http://daringfireball.net/projects/markdown/syntax</a></p>");
+
+		return "<div class='wmd-panel'><div id='wmd-button-bar{$id}'></div><div id='wmd-button-bar-help'>".$help."</div>";
 	}
 	function post_textarea_prettify($id=""){
 		$id = esc_attr($id);
@@ -406,4 +435,5 @@ class WordPress_Markdown {
 
 require_once( dirname( __FILE__) . '/markdown-extra.php' );
 require_once( dirname( __FILE__) . '/markdownify/markdownify.php' );
+require_once( dirname( __FILE__) . '/markdownify/markdownify_extra.php' );
 $markdown = new WordPress_Markdown();

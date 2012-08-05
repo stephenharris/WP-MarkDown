@@ -3,7 +3,7 @@ Contributors: stephenh1988
 Donate link: http://www.harriswebsolutions.co.uk/blog/
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Stable tag: 1.1.3
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
@@ -47,6 +47,11 @@ Once the plug-in is uninstalled you'll simply rever to editing the posts' HTML.
 
 
 == Changelog ==
+
+= 1.1.4 =
+* Fixes bug where oembed would not work. Thanks ot Michael & Vinicius
+* Adds a filters for MarkDown 'help' text: `wpmarkdown_help_text`
+* Support for MarkDown extra (currently not supported in pagedown previewer)
 
 = 1.1.3 =
 * Stable with WordPress 3.4
