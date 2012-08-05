@@ -4,7 +4,7 @@ Donate link: http://www.harriswebsolutions.co.uk/blog/
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
 Tested up to: 3.4.1
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
 
