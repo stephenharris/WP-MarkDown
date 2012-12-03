@@ -4,7 +4,7 @@ Donate link: http://www.harriswebsolutions.co.uk/blog/
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
 Tested up to: 3.4.1
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
 
@@ -48,28 +48,48 @@ Once the plug-in is uninstalled you'll simply rever to editing the posts' HTML.
 
 == Changelog ==
 
+= 1.1.6 =
+
+* Removes the wpautop/unwpautop functions. If using oembed, use embed shortcodes.
+* Adds public wrapper functions.
+* Remove bbPress front-end tinymce editor if using MarkDown
+
+
 = 1.1.5 =
+
 * Fixes bug introduced in 1.1.4 where line breaks are stripped (affects code blocks).
 
+
 = 1.1.4 =
+
 * Fixes bug where oembed would not work. Thanks ot Michael & Vinicius
 * Adds a filters for MarkDown 'help' text: `wpmarkdown_help_text`
 * Support for MarkDown extra (currently not supported in pagedown previewer)
 
+
 = 1.1.3 =
+
 * Stable with WordPress 3.4
 * Fixed bug relating title attributes for links and images
 
+
 = 1.1.2 =
+
 * Fixed bug relating to comments by logged out users
 
+
 = 1.1.1 =
+
 * Fixed backslash bug
 
+
 = 1.1 =
+
 * Added option to replace TinyMCE with Markdown help bar on post editor
 
+
 = 1.0 =
+
 * Initial release
 
 

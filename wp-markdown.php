@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.1.5
+Version: 1.1.6
 Author: Stephen Harris
 Author URI: http://HarrisWebSolutions.co.uk/blog
 */
@@ -66,10 +66,8 @@ class WordPress_Markdown {
 		//Markdown posts and comments
 		add_filter('pre_comment_content',array($this,'pre_comment_content'),5);
 		add_filter( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ), 10, 2 );
-		add_filter( 'wp_insert_post_data', array( $this, 'un_wpautop' ), 11, 2 );
 
 		//Convert HTML to Markdown (posts, comments, BBPress front-end editing)
-		add_filter( 'edit_post_content', array( $this, 'wpautop' ), 10, 2 );
 		add_filter( 'edit_post_content', array( $this, 'edit_post_content' ), 10, 2 );
 		add_filter( 'comment_edit_pre',  array( $this, 'edit_comment_content' ));
 		add_filter('bbp_get_form_reply_content',array( $this, 'bbpress_edit_reply' ));
@@ -242,38 +240,12 @@ class WordPress_Markdown {
 		return $data;
 	}
 
-	//Replace <p> tags that are added when converting  markdown --> HTML. 
-	//These are added back in when editing (see $this->wpautop)
-	//They remain stripped for displaying (so oembed works).
-	public function un_wpautop($data,$postarr){
-		if($this->is_Markdownable($data['post_type'])|| ($data['post_type'] =='revision' && $this->is_Markdownable($data['post_parent']))){
-			$s = $data['post_content'];
-
-			//remove all <p>
-			$s = str_replace("<p>", "", $s);
-
-			//replace <br /> with \n
-			$s = str_replace(array("<br />", "<br>", "<br/>"), "\n", $s);
-
-			//replace </p> with \n\n
-			$s = str_replace("</p>", "\n\n", $s);       
-
-			$data['post_content'] = $s;
-		}
-		return $data;      
-	}
 
 
 	/*
 	* Convert HTML to MarkDown for editing
 	*/
-	//Add <p> tags for markdown. These a replaced prior to saving to database. See $this->un_wpautop.
-	public function wpautop($content, $id){
-		if($this->is_Markdownable((int) $id)){
-			$content = wpautop($content);
-		}
-		return $content;
-	}
+
 	//Post content
 	public function edit_post_content( $content, $id ) {
 		if($this->is_Markdownable((int) $id)){
@@ -317,21 +289,25 @@ class WordPress_Markdown {
 	*/
 	function pre_textarea_prettify_bbpress_reply(){
 		if($this->is_Markdownable('reply')){
+			add_filter('bbp_use_wp_editor','__return_false');
 			echo self::pre_textarea_prettify('bbp_reply_content');
 		}
 	}
 	function post_textarea_prettify_bbpress_reply(){
 		if($this->is_Markdownable('reply')){
+			add_filter('bbp_use_wp_editor','__return_false');
 			echo self::post_textarea_prettify('bbp_reply_content');
 		}
 	}
 	function pre_textarea_prettify_bbpress_topic(){
 		if($this->is_Markdownable('topic')){
+			add_filter('bbp_use_wp_editor','__return_false');
 			echo self::pre_textarea_prettify('bbp_topic_content');
 		}
 	}
 	function post_textarea_prettify_bbpress_topic(){
 		if($this->is_Markdownable('topic')){
+			add_filter('bbp_use_wp_editor','__return_false');
 			echo self::post_textarea_prettify('bbp_topic_content');
 		}
 	}
@@ -430,6 +406,16 @@ class WordPress_Markdown {
 		</script><?php
 	}
 }
+
+	function wpmarkdown_html_to_markdown( $content ){
+		$md = new Markdownify_Extra;
+		$content = $md->parseString($content);
+		return $content;
+	}
+
+	function wpmarkdown_markdown_to_html( $content ){
+		return Markdown($content );
+	}
 
 require_once( dirname( __FILE__) . '/markdown-extra.php' );
 require_once( dirname( __FILE__) . '/markdownify/markdownify.php' );

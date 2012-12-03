@@ -902,7 +902,8 @@ class Markdownify {
    * @return void
    */
   function handleTag_br() {
-    $this->out("  \n".$this->indent, true);
+    //$this->out("  \n".$this->indent, true);
+	$this->out("<br>",true);
     $this->parser->html = ltrim($this->parser->html);
   }
   /**
