@@ -87,9 +87,14 @@ class WordPress_Markdown {
 			add_action('bbp_theme_before_topic_form_content',array( $this,'pre_textarea_prettify_bbpress_topic'));
 			add_action('bbp_theme_after_topic_form_content',array( $this,'post_textarea_prettify_bbpress_topic'));
 		}
-
+	
 		//Register scripts
 		add_action('wp_enqueue_scripts', array($this,'register_scripts'));
+		
+		//Ensures scripts/styles are queued (in particular on home page)
+		if( $this->get_option( 'prettify') )
+			add_filter( 'the_content', array( $this, 'the_content' ) );
+		
 	}
 
 	/*
@@ -211,14 +216,20 @@ class WordPress_Markdown {
 	* Function to determine if prettify should be loaded
 	*/
 	function loadPrettify(){
-		$options = get_option($this->domain);
-		if(empty($options['prettify'])) 
+		if( !$this->get_option( 'prettify') ) 
 			return false;
 
 		$savedtypes = (array) $options['post_types'];
 
 		return is_singular($savedtypes);
-
+	}
+	
+	function get_option( $option ){
+		$options = get_option($this->domain);
+		if( !isset( $options[$option] ) )
+			return false;
+		
+		return $options[$option];
 	}
 
 
@@ -343,8 +354,8 @@ class WordPress_Markdown {
 	}
 
 	function pre_textarea_prettify($id=""){
-			wp_enqueue_script('markdown');
-			wp_enqueue_style('md_style');
+			wp_enqueue_script( 'wp-markdown' );
+			wp_enqueue_style( 'wp-markdown-editor' );
 		$id = esc_attr($id);
 
 		$help = apply_filters('wpmarkdown_help_text'," <p>To create code blocks or other preformatted text, indent by four spaces:</p>
@@ -373,12 +384,21 @@ class WordPress_Markdown {
 	function register_scripts() {
 		 //Markdown Preview and Prettify scripts
 		$plugin_dir = plugin_dir_url(__FILE__);
+		
+		//Register editor scripts &
 		wp_register_script('md_convert', $plugin_dir. 'js/pagedown/Markdown.Converter.js',array(),'1.1' );
 		wp_register_script('md_sanit', $plugin_dir.'js/pagedown/Markdown.Sanitizer.js',array(),'1.1' );
 		wp_register_script('md_edit',$plugin_dir. 'js/pagedown/Markdown.Editor.js',array('md_convert','md_sanit'),'1.1' );
-		wp_register_script('markdown_pretty',$plugin_dir. 'js/prettify.js',array('jquery'),'1.1' );
-
-		wp_register_style('md_style',$plugin_dir.'css/demo.css');
+		
+		//Register prettify script
+		wp_register_script('wp-markdown-prettify',$plugin_dir. 'js/prettify.js',array('jquery'),'1.1' );
+		
+		//Register editor style 
+		wp_register_style('wp-markdown-editor',$plugin_dir.'css/markdown-style.css');
+		
+		//Register prettify style
+		wp_register_style('wp-markdown-prettify', apply_filters( 'wpmarkdown_prettify_style_src', $plugin_dir.'css/prettify.css' ) );
+		
 		$markdown_dependancy = array('jquery','md_edit');
 		$options = get_option($this->domain);
 
@@ -387,11 +407,31 @@ class WordPress_Markdown {
 			$markdown_dependancy[]='markdown_pretty';
 
 			if(!is_admin() && $this->loadPrettify()){	
-				wp_enqueue_script('markdown_pretty');
-				wp_enqueue_style('md_style');
+				wp_enqueue_script( 'wp-markdown-prettify' );
+				wp_enqueue_style( 'wp-markdown-editor' );
+				wp_enqueue_style( 'wp-markdown-prettify' );
 			}
 		}
+		
+		//This script sets the ball rolling with the editor & preview
    		wp_register_script('markdown',$plugin_dir. 'js/markdown.js',$markdown_dependancy ,'1.0' );
+	}
+	
+	/**
+	 * This ensures the prettify styles & scripts are in the queue 
+	 * When on a home page prettify wont already have been queued.
+	 */
+	function the_content( $content ){
+		$post_id = get_the_ID();
+		$post_type = get_post_type();
+		$post_types = $this->get_option( 'post_types' ); 
+		
+		if( $this->get_option( 'prettify') && in_array( $post_type, $post_types ) ){
+			wp_enqueue_script('wp-markdown-prettify');
+			wp_enqueue_style('wp-markdown-prettify');
+		}
+		
+		return $content;
 	}
 
 
@@ -400,10 +440,11 @@ class WordPress_Markdown {
 		$post_type = $screen->post_type;
     		if ( ('post-new.php' == $hook || 'post.php' == $hook) && $this->is_Markdownable($post_type) ){
 			$this->register_scripts();
-			wp_enqueue_script('markdown_pretty');
-			wp_enqueue_script('md_edit');
-			wp_enqueue_script('jquery');
-			wp_enqueue_style('md_style');
+			wp_enqueue_script( 'wp-markdown-prettify');
+			wp_enqueue_script( 'md_edit' );
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_style( 'wp-markdown-editor' );
+			wp_enqueue_style( 'wp-markdown-prettify' );
 			add_action( 'admin_print_footer_scripts', array($this,'admin_footers_script'),100 );
 		}
 	}
