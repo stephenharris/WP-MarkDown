@@ -749,13 +749,20 @@ class Markdownify {
       $this->stack['a'] = array();
     }
     if (!$link_id) {
-      $link_id = count($this->stack['a']) + 1;
       $tag = array(
         'href' => $this->parser->tagAttributes['src'],
-        'linkID' => $link_id,
         'title' => $this->parser->tagAttributes['title']
       );
-      array_push($this->stack['a'], $tag);
+      if ($this->parent() == 'a') {
+          // when we are inside an a tag, we must not mess up the stack
+          $link_id = count($this->stack['a']);
+          $tag['linkID'] = $link_id;
+          array_splice($this->stack['a'], -1, 0, array($tag));
+      } else {
+          $link_id = count($this->stack['a']) + 1;
+          $tag['linkID'] = $link_id;
+          array_push($this->stack['a'], $tag);
+      }
     }
 
     $this->out('!['.$this->parser->tagAttributes['alt'].']['.$link_id.']', true);
