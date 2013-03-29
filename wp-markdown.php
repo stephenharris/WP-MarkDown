@@ -219,7 +219,7 @@ class WordPress_Markdown {
 		if( !$this->get_option( 'prettify') ) 
 			return false;
 
-		$savedtypes = (array) $options['post_types'];
+		$savedtypes = (array) $this->get_option( 'post_types' );
 
 		return is_singular($savedtypes);
 	}
@@ -439,13 +439,12 @@ class WordPress_Markdown {
 		$screen = get_current_screen();
 		$post_type = $screen->post_type;
     		if ( ('post-new.php' == $hook || 'post.php' == $hook) && $this->is_Markdownable($post_type) ){
-			$this->register_scripts();
-			wp_enqueue_script( 'wp-markdown-prettify');
-			wp_enqueue_script( 'md_edit' );
-			wp_enqueue_script( 'jquery' );
-			wp_enqueue_style( 'wp-markdown-editor' );
-			wp_enqueue_style( 'wp-markdown-prettify' );
-			add_action( 'admin_print_footer_scripts', array($this,'admin_footers_script'),100 );
+				$this->register_scripts();
+				wp_enqueue_script( 'wp-markdown-prettify');
+				wp_enqueue_script( 'md_edit' );
+				wp_enqueue_style( 'wp-markdown-editor' );
+				wp_enqueue_style( 'wp-markdown-prettify' );
+				add_action( 'admin_print_footer_scripts', array($this,'admin_footers_script'),100 );
 		}
 	}
 
