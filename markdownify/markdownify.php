@@ -812,7 +812,7 @@ class Markdownify {
   function handleTag_pre() {
     if ($this->keepHTML && $this->parser->isStartTag) {
       # check if a simple <code> follows
-      if (!preg_match("#^\s*<code\s*>#Us", $this->parser->html)) {
+      if (!preg_match('#^\s*<code\s*>#Us', $this->parser->html)) {
         # this is no standard markdown code block
         $this->handleTagToText();
         return;
@@ -909,8 +909,7 @@ class Markdownify {
    * @return void
    */
   function handleTag_br() {
-    //$this->out("  \n".$this->indent, true);
-	$this->out("<br>",true);
+    $this->out("  \n".$this->indent, true);
     $this->parser->html = ltrim($this->parser->html);
   }
   /**
