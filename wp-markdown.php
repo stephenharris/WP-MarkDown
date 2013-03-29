@@ -66,6 +66,10 @@ class WordPress_Markdown {
 		//Markdown posts and comments
 		add_filter('pre_comment_content',array($this,'pre_comment_content'),5);
 		add_filter( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ), 10, 2 );
+		add_filter('bbp_new_reply_pre_content',array( $this, 'bbp_reply_pre_content' ), 5, 2 );
+		add_filter('bbp_edit_reply_pre_content',array( $this, 'bbp_reply_pre_content' ), 5, 2 );
+		add_filter('bbp_new_topic_pre_content',array( $this, 'bbp_topic_pre_content' ), 5, 2 );
+		add_filter('bbp_edit_topic_pre_content',array( $this, 'bbp_topic_pre_content' ), 5, 2 );
 
 		//Convert HTML to Markdown (posts, comments, BBPress front-end editing)
 		add_filter( 'edit_post_content', array( $this, 'edit_post_content' ), 10, 2 );
@@ -240,6 +244,25 @@ class WordPress_Markdown {
 		return $data;
 	}
 
+	//For bbPress replies (triggered before wp_kses)
+	public function bbp_reply_pre_content( $content ) {		
+		if( $this->is_Markdownable('reply') ){
+			$content = stripslashes($content );
+			$content = Markdown($content );
+			$content = addslashes($content);
+		}
+		return $content;
+	}
+
+	//For bbPress topics (triggered before wp_kses)
+	public function bbp_topic_pre_content( $content ) {		
+		if( $this->is_Markdownable('topic') ){
+			$content = stripslashes($content );
+			$content = Markdown($content );
+			$content = addslashes($content);
+		}
+		return $content;
+	}
 
 
 	/*
