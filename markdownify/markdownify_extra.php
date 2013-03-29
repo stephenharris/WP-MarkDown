@@ -340,7 +340,7 @@ class Markdownify_Extra extends Markdownify {
    * @return void
    */
   function handleTag_th() {
-    if (!$this->keepHTML && !isset($this->table['rows'][1]) && !isset($this->table['aligns'][$this->col+1])) {
+    if ($this->parser->isStartTag && !$this->keepHTML && !isset($this->table['rows'][1]) && !isset($this->table['aligns'][$this->col+1])) {
       if (isset($this->parser->tagAttributes['align'])) {
         $this->table['aligns'][$this->col+1] = $this->parser->tagAttributes['align'];
       } else {
