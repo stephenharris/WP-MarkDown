@@ -168,6 +168,7 @@ class WordPress_Markdown {
 
 	function validate($options){
 		$clean = array();
+		
 		foreach (self::$options as $option => $default){
 			if(self::$option_types[$option]=='array'){
 				$clean[$option] = isset($options[$option]) ? array_map('esc_attr',$options[$option]) : $default;
@@ -175,6 +176,7 @@ class WordPress_Markdown {
 				$clean[$option] = isset($options[$option]) ? (int) $options[$option] : $default;
 			}
 		}
+
 		return $clean;
 	}
 
@@ -215,7 +217,7 @@ class WordPress_Markdown {
 	/*
 	* Function to determine if prettify should be loaded
 	*/
-	function loadPrettify(){
+	function load_prettify(){
 		if( !$this->get_option( 'prettify') ) 
 			return false;
 
@@ -354,8 +356,9 @@ class WordPress_Markdown {
 	}
 
 	function pre_textarea_prettify($id=""){
-			wp_enqueue_script( 'wp-markdown' );
-			wp_enqueue_style( 'wp-markdown-editor' );
+		
+		wp_enqueue_script( 'wp-markdown-editor' );
+		wp_enqueue_style( 'wp-markdown-editor' );
 		$id = esc_attr($id);
 
 		$help = apply_filters('wpmarkdown_help_text'," <p>To create code blocks or other preformatted text, indent by four spaces:</p>
@@ -404,9 +407,9 @@ class WordPress_Markdown {
 
 		 //Load prettify if enabled and viewing an appropriate post.
 		if(!empty($options['prettify'])){
-			$markdown_dependancy[]='markdown_pretty';
+			$markdown_dependancy[]= 'wp-markdown-prettify';
 
-			if(!is_admin() && $this->loadPrettify()){	
+			if( !is_admin() && $this->load_prettify() ){	
 				wp_enqueue_script( 'wp-markdown-prettify' );
 				wp_enqueue_style( 'wp-markdown-editor' );
 				wp_enqueue_style( 'wp-markdown-prettify' );
@@ -414,7 +417,7 @@ class WordPress_Markdown {
 		}
 		
 		//This script sets the ball rolling with the editor & preview
-   		wp_register_script('markdown',$plugin_dir. 'js/markdown.js',$markdown_dependancy ,'1.0' );
+   		wp_register_script( 'wp-markdown-editor', $plugin_dir . 'js/markdown.js', $markdown_dependancy, '1.0' );
 	}
 	
 	/**
