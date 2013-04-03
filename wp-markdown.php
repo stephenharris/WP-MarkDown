@@ -389,18 +389,18 @@ class WordPress_Markdown {
 		$plugin_dir = plugin_dir_url(__FILE__);
 		
 		//Register editor scripts &
-		wp_register_script('md_convert', $plugin_dir. 'js/pagedown/Markdown.Converter.js',array(),'1.1' );
-		wp_register_script('md_sanit', $plugin_dir.'js/pagedown/Markdown.Sanitizer.js',array(),'1.1' );
-		wp_register_script('md_edit',$plugin_dir. 'js/pagedown/Markdown.Editor.js',array('md_convert','md_sanit'),'1.1' );
+		wp_register_script('md_convert', $plugin_dir. 'js/pagedown/Markdown.Converter.js', array(), self::$version );
+		wp_register_script('md_sanit', $plugin_dir.'js/pagedown/Markdown.Sanitizer.js', array(), self::$version );
+		wp_register_script('md_edit',$plugin_dir. 'js/pagedown/Markdown.Editor.js', array('md_convert','md_sanit'), self::$version );
 		
 		//Register prettify script
-		wp_register_script('wp-markdown-prettify',$plugin_dir. 'js/prettify.js',array('jquery'),'1.1' );
+		wp_register_script('wp-markdown-prettify',$plugin_dir. 'js/prettify.js', array('jquery'), self::$version );
 		
 		//Register editor style 
-		wp_register_style('wp-markdown-editor',$plugin_dir.'css/markdown-style.css');
+		wp_register_style('wp-markdown-editor',$plugin_dir.'css/markdown-style.css', array(), self::$version );
 		
 		//Register prettify style
-		wp_register_style('wp-markdown-prettify', apply_filters( 'wpmarkdown_prettify_style_src', $plugin_dir.'css/prettify.css' ) );
+		wp_register_style('wp-markdown-prettify', apply_filters( 'wpmarkdown_prettify_style_src', $plugin_dir.'css/prettify.css' ), array(), self::$version );
 		
 		$markdown_dependancy = array('jquery','md_edit');
 		$options = get_option($this->domain);
@@ -417,7 +417,7 @@ class WordPress_Markdown {
 		}
 		
 		//This script sets the ball rolling with the editor & preview
-   		wp_register_script( 'wp-markdown-editor', $plugin_dir . 'js/markdown.js', $markdown_dependancy, '1.0' );
+   		wp_register_script( 'wp-markdown-editor', $plugin_dir . 'js/markdown.js', $markdown_dependancy, self::$version );
 	}
 	
 	/**
@@ -430,8 +430,8 @@ class WordPress_Markdown {
 		$post_types = $this->get_option( 'post_types' ); 
 		
 		if( $this->get_option( 'prettify') && in_array( $post_type, $post_types ) ){
-			wp_enqueue_script('wp-markdown-prettify');
 			wp_enqueue_style('wp-markdown-prettify');
+			wp_enqueue_script( 'wp-markdown-editor' ); //Sets the prettify ball rolling.
 		}
 		
 		return $content;
