@@ -19,7 +19,6 @@ jQuery(document).ready(function($) {
 		if( $('#'+id ).length > 0 ){
 			var converter2 = new Markdown.getSanitizingConverter();
 			editor = new Markdown.Editor(converter2, id, { handler: help });
-			editor.run();
 		}
 		
 		if (typeof prettyPrint == 'function') {
@@ -30,5 +29,9 @@ jQuery(document).ready(function($) {
 			        prettyPrint();
    			 	});
 			}
+		}
+
+		if( editor ){
+			editor.run();
 		}
 });
