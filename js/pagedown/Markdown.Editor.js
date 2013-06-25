@@ -1426,7 +1426,13 @@
             }));
             buttons.heading = makeButton("wmd-heading-button", "Heading <h1>/<h2> Ctrl+H", "-160px", bindCommand("doHeading"));
             buttons.hr = makeButton("wmd-hr-button", "Horizontal Rule <hr> Ctrl+R", "-180px", bindCommand("doHorizontalRule"));
-            makeSpacer(3);
+            
+            if( typeof ajaxurl != 'undefined' ){
+            	buttons.more = makeButton("wmd-more-button", "More <hr> Ctrl+M", "-260px", bindCommand("doMoreTag"));
+            	makeSpacer( '3-admin' );
+            }else{
+            	makeSpacer(3);
+            }
             buttons.undo = makeButton("wmd-undo-button", "Undo - Ctrl+Z", "-200px", null);
             buttons.undo.execute = function (manager) { if (manager) manager.undo(); };
 
@@ -2126,6 +2132,12 @@
 
     commandProto.doHorizontalRule = function (chunk, postProcessing) {
         chunk.startTag = "----------\n";
+        chunk.selection = "";
+        chunk.skipLines(2, 1, true);
+    }
+    
+    commandProto.doMoreTag = function (chunk, postProcessing) {
+        chunk.startTag = "<!--more-->\n";
         chunk.selection = "";
         chunk.skipLines(2, 1, true);
     }
