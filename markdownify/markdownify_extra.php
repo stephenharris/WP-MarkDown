@@ -69,9 +69,9 @@ class Markdownify_Extra extends Markdownify {
       'align' => 'optional',
     );
     $this->isMarkdownable['tr'] = array();
-    array_push($this->ignore, 'thead');
-    array_push($this->ignore, 'tbody');
-    array_push($this->ignore, 'tfoot');
+    //array_push($this->ignore, 'thead');
+    //array_push($this->ignore, 'tbody');
+    //array_push($this->ignore, 'tfoot');
     # definition lists
     $this->isMarkdownable['dl'] = array();
     $this->isMarkdownable['dd'] = array();
