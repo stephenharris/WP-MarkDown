@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 			id =  "comment";
 		}
 
-		if( $('#'+id ).length > 0 ){
+		if( $('#wmd-button-bar'+id ).length > 0 ){
 			var converter2 = new Markdown.getSanitizingConverter();
 			editor = new Markdown.Editor(converter2, id, { handler: help });
 		}
