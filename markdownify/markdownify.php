@@ -233,7 +233,7 @@ class Markdownify {
    * TODO: what's with block chars / sequences at the beginning of a block?
    */
   var $escapeInText = array(
-    '([-*_])([ ]{0,2}\1){2,}' => '\\\\$0|', # hr
+    '^([-*_])([ ]{0,2}\1){2,}$' => '\\\\$0', # hr
     '\*\*([^*\s]+)\*\*' => '\*\*$1\*\*', # strong
     '\*([^*\s]+)\*' => '\*$1\*', # em
     '__(?! |_)(.+)(?!<_| )__' => '\_\_$1\_\_', # em
