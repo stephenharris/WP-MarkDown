@@ -27,7 +27,7 @@ class WordPress_Markdown {
 	var $domain = 'markdown';
 
 	//Version
-	static $version ='1.2';
+	static $version ='1.3';
 
 	//Options and defaults
 	static $options = array(
@@ -357,8 +357,9 @@ class WordPress_Markdown {
 
 	function pre_textarea_prettify($id=""){
 		
-		wp_enqueue_script( 'wp-markdown-editor' );
-		wp_enqueue_style( 'wp-markdown-editor' );
+		wp_enqueue_script( 'md_edit' );
+		wp_enqueue_script( 'wp-markdown' );
+		wp_enqueue_style( 'wp-markdown' );
 		$id = esc_attr($id);
 
 		$help = apply_filters('wpmarkdown_help_text'," <p>To create code blocks or other preformatted text, indent by four spaces:</p>
@@ -397,12 +398,12 @@ class WordPress_Markdown {
 		wp_register_script('wp-markdown-prettify',$plugin_dir. 'js/prettify.js', array('jquery'), self::$version );
 		
 		//Register editor style 
-		wp_register_style('wp-markdown-editor',$plugin_dir.'css/markdown-style.css', array(), self::$version );
+		wp_register_style('wp-markdown',$plugin_dir.'css/markdown-style.css', array(), self::$version );
 		
 		//Register prettify style
 		wp_register_style('wp-markdown-prettify', apply_filters( 'wpmarkdown_prettify_style_src', $plugin_dir.'css/prettify.css' ), array(), self::$version );
 		
-		$markdown_dependancy = array('jquery','md_edit');
+		$markdown_dependancy = array('jquery');
 		$options = get_option($this->domain);
 
 		 //Load prettify if enabled and viewing an appropriate post.
@@ -411,13 +412,13 @@ class WordPress_Markdown {
 
 			if( !is_admin() && $this->load_prettify() ){	
 				wp_enqueue_script( 'wp-markdown-prettify' );
-				wp_enqueue_style( 'wp-markdown-editor' );
+				wp_enqueue_style( 'wp-markdown' );
 				wp_enqueue_style( 'wp-markdown-prettify' );
 			}
 		}
 		
 		//This script sets the ball rolling with the editor & preview
-   		wp_register_script( 'wp-markdown-editor', $plugin_dir . 'js/markdown.js', $markdown_dependancy, self::$version );
+   		wp_register_script( 'wp-markdown', $plugin_dir . 'js/markdown.js', $markdown_dependancy, self::$version );
 	}
 	
 	/**
@@ -431,7 +432,7 @@ class WordPress_Markdown {
 		
 		if( $this->get_option( 'prettify') && in_array( $post_type, $post_types ) ){
 			wp_enqueue_style('wp-markdown-prettify');
-			wp_enqueue_script( 'wp-markdown-editor' ); //Sets the prettify ball rolling.
+			wp_enqueue_script( 'wp-markdown' ); //Sets the prettify ball rolling.
 		}
 		
 		return $content;
@@ -445,7 +446,7 @@ class WordPress_Markdown {
 				$this->register_scripts();
 				wp_enqueue_script( 'wp-markdown-prettify');
 				wp_enqueue_script( 'md_edit' );
-				wp_enqueue_style( 'wp-markdown-editor' );
+				wp_enqueue_style( 'wp-markdown' );
 				wp_enqueue_style( 'wp-markdown-prettify' );
 				add_action( 'admin_print_footer_scripts', array($this,'admin_footers_script'),100 );
 		}
