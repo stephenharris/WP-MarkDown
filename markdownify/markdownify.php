@@ -202,14 +202,14 @@ class Markdownify {
    * @var array<string>
    */
   var $drop = array(
-    'script',
+    //'script',
     'head',
-    'style',
+   // 'style',
     'form',
     'area',
     'object',
     'param',
-    'iframe',
+    //'iframe',
   );
   /**
    * Markdown indents which could be wrapped
