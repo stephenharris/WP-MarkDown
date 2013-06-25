@@ -997,7 +997,7 @@ class Markdownify {
    * @return void
    */
   function out($put, $nowrap = false) {
-    if (empty($put)) {
+  	if ( $put !== '0' && empty( $put ) ) {
       return;
     }
     if (!empty($this->buffer)) {
