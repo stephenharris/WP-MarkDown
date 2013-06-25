@@ -237,7 +237,7 @@ class Markdownify {
     '\*\*([^*\s]+)\*\*' => '\*\*$1\*\*', # strong
     '\*([^*\s]+)\*' => '\*$1\*', # em
     '__(?! |_)(.+)(?!<_| )__' => '\_\_$1\_\_', # em
-    '_(?! |_)(.+)(?!<_| )_' => '\_$1\_', # em
+    '\b_(?! |_)(.+)(?!<_| )_' => '\_$1\_', # em Force it to only check at the beginning of words - prevents breaking shortcodes
     '`(.+)`' => '\`$1\`', # code
     '\[(.+)\](\s*\()' => '\[$1\]$2', # links: [text] (url) => [text\] (url)
     '\[(.+)\](\s*)\[(.*)\]' => '\[$1\]$2\[$3\]', # links: [text][id] => [text\][id\]
