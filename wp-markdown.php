@@ -40,11 +40,14 @@ class WordPress_Markdown {
 		'markdownbar'=>'array',
 		'prettify'=>'checkbox',
 	);
+	
+	public $kses_removed = false;
 
 	public function __construct() {
 		register_activation_hook(__FILE__,array(__CLASS__, 'install' )); 
 		register_uninstall_hook(__FILE__,array( __CLASS__, 'uninstall' )); 
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'set_current_user', array( $this, 'maybe_remove_kses' ), 99 );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 	}
 
@@ -70,6 +73,9 @@ class WordPress_Markdown {
 		add_filter('bbp_edit_reply_pre_content',array( $this, 'bbp_reply_pre_content' ), 5, 2 );
 		add_filter('bbp_new_topic_pre_content',array( $this, 'bbp_topic_pre_content' ), 5, 2 );
 		add_filter('bbp_edit_topic_pre_content',array( $this, 'bbp_topic_pre_content' ), 5, 2 );
+		
+		$this->maybe_remove_kses();
+		remove_filter( 'content_save_pre', 'balanceTags', 50 ); //Remove balanceTags and apply after MD -> HTML
 
 		//Convert HTML to Markdown (posts, comments, BBPress front-end editing)
 		add_filter( 'edit_post_content', array( $this, 'edit_post_content' ), 10, 2 );
@@ -97,6 +103,16 @@ class WordPress_Markdown {
 		
 	}
 
+	/**
+	 * {@see wp_filter_post_kses()} strips out all HTML tags that are not explicitly allowed
+	 * for the current user. But this runs before markdown is converted to HTML, meaning that some tags
+	 * in code blocks are stripped out. We remove the filter, and conditionally at it back at `wp_insert_post_data`.
+	 */
+	function maybe_remove_kses(){
+		if ( remove_filter( 'content_save_pre', 'wp_filter_post_kses' ) ) {
+			$this->kses_removed = true;
+		}
+	}
 	/*
 	* Settings
 	*/
@@ -247,13 +263,26 @@ class WordPress_Markdown {
 		}
 		return $comment;
 	}
+	
 	//For posts
-	public function wp_insert_post_data( $data, $postarr ) {		
-		if($this->is_Markdownable($data['post_type'])|| ($data['post_type'] =='revision' && $this->is_Markdownable($data['post_parent']))){
-			$content = stripslashes($data['post_content'] );
-			$content = Markdown($content );
-			$data['post_content'] =addslashes($content);
+	public function wp_insert_post_data( $data, $postarr ) {
+		
+		if( 
+			$this->is_Markdownable( $data['post_type'] ) 
+			|| ( $data['post_type'] =='revision' && $this->is_Markdownable( $data['post_parent'] ) ) 
+		){
+			$content = stripslashes( $data['post_content'] );
+			$content = Markdown( $content );
+			$data['post_content'] = addslashes( $content );
 		}
+		
+		//If we have removed kses - add it here
+		if( $this->kses_removed ){
+			$data['post_content'] = wp_filter_post_kses( $data['post_content'] );;
+		}
+		
+		$data['post_content'] = balanceTags( data['post_content'] );
+		
 		return $data;
 	}
 
