@@ -281,7 +281,7 @@ class WordPress_Markdown {
 			$data['post_content'] = wp_filter_post_kses( $data['post_content'] );;
 		}
 		
-		$data['post_content'] = balanceTags( data['post_content'] );
+		$data['post_content'] = balanceTags( $data['post_content'] );
 		
 		return $data;
 	}
