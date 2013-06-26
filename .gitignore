@@ -6,5 +6,5 @@
 compiler.jar
 dist
 externs.js
-externs-venue.js
+externs-converter.js
 Makefile
