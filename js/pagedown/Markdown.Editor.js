@@ -1186,6 +1186,9 @@
                     case "l":
                         doClick(buttons.link);
                         break;
+                    case 'm':
+                    	doClick(buttons.more);
+                        break;
                     case "q":
                         doClick(buttons.quote);
                         break;
