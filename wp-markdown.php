@@ -389,13 +389,15 @@ class WordPress_Markdown {
 		 //Markdown Preview and Prettify scripts
 		$plugin_dir = plugin_dir_url(__FILE__);
 		
+		$min = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
+		
 		//Register editor scripts &
-		wp_register_script('md_convert', $plugin_dir. 'js/pagedown/Markdown.Converter.js', array(), self::$version );
-		wp_register_script('md_sanit', $plugin_dir.'js/pagedown/Markdown.Sanitizer.js', array(), self::$version );
-		wp_register_script('md_edit',$plugin_dir. 'js/pagedown/Markdown.Editor.js', array('md_convert','md_sanit'), self::$version );
+		wp_register_script('md_convert', $plugin_dir. "js/pagedown/Markdown.Converter{$min}.js", array(), self::$version );
+		wp_register_script('md_sanit', $plugin_dir. "js/pagedown/Markdown.Sanitizer{$min}.js", array(), self::$version );
+		wp_register_script('md_edit',$plugin_dir. "js/pagedown/Markdown.Editor{$min}.js", array('md_convert','md_sanit'), self::$version );
 		
 		//Register prettify script
-		wp_register_script('wp-markdown-prettify',$plugin_dir. 'js/prettify.js', array('jquery'), self::$version );
+		wp_register_script('wp-markdown-prettify',$plugin_dir. "js/prettify.js", array('jquery'), self::$version );
 		
 		//Register editor style 
 		wp_register_style('wp-markdown',$plugin_dir.'css/markdown-style.css', array(), self::$version );
@@ -418,7 +420,7 @@ class WordPress_Markdown {
 		}
 		
 		//This script sets the ball rolling with the editor & preview
-   		wp_register_script( 'wp-markdown', $plugin_dir . 'js/markdown.js', $markdown_dependancy, self::$version );
+   		wp_register_script( 'wp-markdown', $plugin_dir . "js/markdown{$min}.js", $markdown_dependancy, self::$version );
 	}
 	
 	/**

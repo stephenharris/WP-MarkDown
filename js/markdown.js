@@ -9,11 +9,11 @@ jQuery(document).ready(function($) {
 		}
 
 		if($('#bbp_reply_content').length>0){
-			id =  "bbp_reply_content";
+			var id =  "bbp_reply_content";
 		}else if($('#bbp_topic_content').length>0){
-			id =  "bbp_topic_content";
+			var id =  "bbp_topic_content";
 		}else{
-			id =  "comment";
+			var id =  "comment";
 		}
 
 		if( $('#wmd-button-bar'+id ).length > 0 ){
