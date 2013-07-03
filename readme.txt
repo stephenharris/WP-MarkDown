@@ -4,7 +4,7 @@ Donate link: http://www.stephenharris.info
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
 Tested up to: 3.5.1
-Stable tag: 1.2
+Stable tag: 1.3
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
 
@@ -56,6 +56,15 @@ Use `<div markdown="1">`.
 
 
 == Changelog ==
+
+= 1.3 =
+* Apply kses and balance tags after MD->HTML conversion. See[#23](https://github.com/stephenharris/WP-MarkDown/issues/23)
+* Compress scripts and minify icon sprite. See [#7](https://github.com/stephenharris/WP-MarkDown/issues/7)
+* Adds 'more' tag to MarkDown editor. 
+* Adds support for iframes. See [#22](https://github.com/stephenharris/WP-MarkDown/issues/22).
+* Fixes bug with underscores in shortcodes.
+* Adds support for tbody, tfoot and thead tags
+* Refactoring including renaming of plug-in style & script handles.
 
 = 1.2 =
 * Fixes problems with images nested inside links. See [#12](https://github.com/stephenharris/WP-MarkDown/issues/12)
