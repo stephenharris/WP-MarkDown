@@ -227,6 +227,9 @@ class Markdownify {
   /**
    * list of chars which have to be escaped in normal text
    * @note: use strings in regex format
+   * @note: WP-shortcode -MD fun 1! Escape underscores only appearing at the ends of words.
+   * @note: WP-shortcode - MD fun 2! [text][text] in HTML is not be escaped. (Could be a shortcode
+   * and won't be valid link: all links from HTML->MD have integer identifier). 
    *
    * @var array
    *
@@ -240,7 +243,7 @@ class Markdownify {
     '\b_(?! |_)(.+)(?!<_| )_' => '\_$1\_', # em Force it to only check at the beginning of words - prevents breaking shortcodes
     '`(.+)`' => '\`$1\`', # code
     '\[(.+)\](\s*\()' => '\[$1\]$2', # links: [text] (url) => [text\] (url)
-    '\[(.+)\](\s*)\[(.*)\]' => '\[$1\]$2\[$3\]', # links: [text][id] => [text\][id\]
+    '\[(.+)\](\s*)\[(\d)\]' => '\[$1\]$2\[$3\]', # links: [text][integer] => [text\][integer]
   );
   /**
    * wether last processed node was a block tag or not
