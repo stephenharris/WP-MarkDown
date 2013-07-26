@@ -74,6 +74,19 @@ class WordPress_Markdown {
 		add_filter('bbp_new_topic_pre_content',array( $this, 'bbp_topic_pre_content' ), 5, 2 );
 		add_filter('bbp_edit_topic_pre_content',array( $this, 'bbp_topic_pre_content' ), 5, 2 );
 		
+		//See https://github.com/stephenharris/WP-MarkDown/issues/25
+		if( $this->is_Markdownable('reply') ){
+			remove_filter( 'bbp_new_reply_pre_content', 'bbp_code_trick',  20 );
+			remove_filter( 'bbp_edit_reply_pre_content', 'bbp_code_trick',  20 );
+			remove_filter( 'bbp_get_form_reply_content', 'bbp_code_trick_reverse',  10 );
+		}
+		
+		if( $this->is_Markdownable('topic') ){
+			remove_filter( 'bbp_new_topic_pre_content', 'bbp_code_trick', 20 );
+			remove_filter( 'bbp_edit_topic_pre_content', 'bbp_code_trick', 20 );
+			remove_filter( 'bbp_get_form_topic_content', 'bbp_code_trick_reverse', 10 );
+		}
+		
 		$this->maybe_remove_kses();
 		remove_filter( 'content_save_pre', 'balanceTags', 50 ); //Remove balanceTags and apply after MD -> HTML
 
