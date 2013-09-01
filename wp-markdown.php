@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.3
+Version: 1.4
 Author: Stephen Harris
 Author URI: http://stephenharris.info
 */
@@ -27,7 +27,7 @@ class WordPress_Markdown {
 	var $domain = 'markdown';
 
 	//Version
-	static $version ='1.3';
+	static $version ='1.4';
 
 	//Options and defaults
 	static $options = array(
