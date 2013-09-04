@@ -396,6 +396,9 @@ class WordPress_Markdown {
 
 	function pre_textarea_prettify($id=""){
 		
+		//Quick fix ensure wp-markdown scripts are registered @see https://github.com/stephenharris/WP-MarkDown/issues/27
+		$this->register_scripts();
+		
 		wp_enqueue_script( 'wp-markdown-editor' );
 		wp_enqueue_script( 'wp-markdown' );
 		wp_enqueue_style( 'wp-markdown-editor' );
