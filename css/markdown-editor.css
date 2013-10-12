@@ -1,5 +1,5 @@
 /* MarkDown editor */
-.wmd-panel{min-width: 500px;width: 100%;}
+.wmd-panel{width: 100%;}
 .wmd-button-bar {width: 100%;}
 .wmd-preview {border: 2px dotted #CCCCCC;clear: both;color: #555555;font-size: 14px !important;line-height: 1.4em !important;margin-bottom: 5px;margin-right: 5px;padding: 3px;width: 100%;}
 .wmd-preview pre{background:none;border:none;}
