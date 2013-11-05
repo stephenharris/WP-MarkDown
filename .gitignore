@@ -11,3 +11,4 @@ Makefile
 node_modules
 vendor
 /composer.phar
+tests
