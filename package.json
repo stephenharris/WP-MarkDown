@@ -1,0 +1,22 @@
+{
+  "name": "wp-markdown",
+  "version": "1.4.0",
+  "description": "Allows you to use MarkDown in posts, BBPress forums and comments",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stephenharris/WP-MarkDown.git"
+  },
+  "author": "Stephen Harris",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/stephenharris/WP-MarkDown/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-wp-readme-to-markdown": "~0.1.0",
+    "grunt-phpunit": "~0.3.0"
+  }
+}
