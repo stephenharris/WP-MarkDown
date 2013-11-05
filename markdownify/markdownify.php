@@ -243,7 +243,7 @@ class Markdownify {
     '\b_(?! |_)(.+)(?!<_| )_' => '\_$1\_', # em Force it to only check at the beginning of words - prevents breaking shortcodes
     '`(.+)`' => '\`$1\`', # code
     '\[(.+)\](\s*\()' => '\[$1\]$2', # links: [text] (url) => [text\] (url)
-    '\[(.+)\](\s*)\[(\d)\]' => '\[$1\]$2\[$3\]', # links: [text][integer] => [text\][integer]
+    '\[([^\]]+)\](\s*)\[(\d)\]' => '\[$1\]$2\[$3\]', # links: [text][integer] => \[text\]\[integer\]
   );
   /**
    * wether last processed node was a block tag or not
