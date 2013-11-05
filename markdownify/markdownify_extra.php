@@ -62,6 +62,8 @@ class Markdownify_Extra extends Markdownify {
     $this->isMarkdownable['h6']['id'] = 'optional';
     # tables
     $this->isMarkdownable['table'] = array();
+    $this->isMarkdownable['thead'] = array();
+    $this->isMarkdownable['tbody'] = array();
     $this->isMarkdownable['th'] = array(
       'align' => 'optional',
     );
@@ -180,6 +182,23 @@ class Markdownify_Extra extends Markdownify {
       $this->out("\n\n".implode("\n", $out));
     }
   }
+
+  /**
+   * handle <thead> tags
+   *
+   * @param void
+   * @return void
+   */
+  function handleTag_thead() {}
+
+  /**
+   * handle <tbody> tags
+   *
+   * @param void
+   * @return void
+   */
+  function handleTag_tbody() {}
+
   /**
    * handle <table> tags
    *
