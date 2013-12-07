@@ -147,6 +147,7 @@ module.exports = function(grunt) {
     checktextdomain: {
     	options:{
 			text_domain: 'wp-markdown',
+			correct_domain: true,
 			keywords: ['__:1,2d',
 			           '_e:1,2d',
 			           '_x:1,2c,3d',
