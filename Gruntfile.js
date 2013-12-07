@@ -182,7 +182,7 @@ module.exports = function(grunt) {
 
 //Tasks
 grunt.registerTask( 'test', [ 'phpunit', 'jshint' ] );
-grunt.registerTask( 'build', [ 'test', 'newer:uglify', 'pot', 'po2mo', 'wp_readme_to_markdown', 'clean', 'copy' ] );
+grunt.registerTask( 'build', [ 'test', 'uglify', 'pot', 'po2mo', 'wp_readme_to_markdown', 'clean', 'copy' ] );
 grunt.registerTask( 'deploy', [ 'checkbranch:master', 'checkrepo:deploy', 'build', 'wp_deploy' ] );
 
 
