@@ -541,7 +541,16 @@ function wpmarkdown_markdown_to_html( $markdown ){
 	return Markdown( $markdown );
 }
 
-require_once( dirname( __FILE__) . '/markdown-extra.php' );
-require_once( dirname( __FILE__) . '/markdownify/markdownify.php' );
-require_once( dirname( __FILE__) . '/markdownify/markdownify_extra.php' );
+if( !function_existss( 'Markdown' ) ){
+	require_once( dirname( __FILE__) . '/markdown-extra.php' );
+}
+
+if( !class_exists( 'Markdownify' ) ){
+	require_once( dirname( __FILE__) . '/markdownify/markdownify.php' );
+}
+
+if( !class_exists( 'Markdownify' ) ){
+	require_once( dirname( __FILE__) . '/markdownify/markdownify_extra.php' );
+}
+
 $markdown = new WordPress_Markdown();
