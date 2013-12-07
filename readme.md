@@ -48,26 +48,34 @@ Use `<div markdown="1">`.
 
 ## Screenshots ##
 
-###1. The Markdown toolbar and previewer on a bbPress forum###
+### 1. The Markdown toolbar and previewer on a bbPress forum ###
 ![The Markdown toolbar and previewer on a bbPress forum](http://s.wordpress.org/extend/plugins/wp-markdown/screenshot-1.png)
 
-###2. Plug-in settings, located at the bottom of the Writing settings page###
+### 2. Plug-in settings, located at the bottom of the Writing settings page ###
 ![Plug-in settings, located at the bottom of the Writing settings page](http://s.wordpress.org/extend/plugins/wp-markdown/screenshot-2.png)
 
-###3. The Markdown toolbar and previewer on a comment form###
+### 3. The Markdown toolbar and previewer on a comment form ###
 ![The Markdown toolbar and previewer on a comment form](http://s.wordpress.org/extend/plugins/wp-markdown/screenshot-3.png)
 
-###4. Example of Markdown syntax###
+### 4. Example of Markdown syntax ###
 ![Example of Markdown syntax](http://s.wordpress.org/extend/plugins/wp-markdown/screenshot-4.png)
 
-###5. The output of the example Markdown###
+### 5. The output of the example Markdown ###
 ![The output of the example Markdown](http://s.wordpress.org/extend/plugins/wp-markdown/screenshot-5.png)
 
 
 
 ## Changelog ##
 
-###1.4 ###
+### 1.5 ###
+* Handle tables. See[#35](https://github.com/stephenharris/WP-MarkDown/issues/35)
+* Apply responsive layout issue. See[#31](https://github.com/stephenharris/WP-MarkDown/issues/31)
+* Use compressed prettify.js
+* Fixed bug with lists not being escaped
+* Fix textdomain. Change to 'wp-markdown'. Add pot.
+* Fixes incompatability issues with bbPress.
+
+### 1.4 ###
 * Fixes issue with consecutive shortcodes.
 * Fixes editing bbPress topics/replies on the front end corrupts MarkDown. See [#25](https://github.com/stephenharris/WP-MarkDown/issues/25)
 
@@ -101,7 +109,7 @@ Use `<div markdown="1">`.
 ### 1.1.4 ###
 
 * Fixes bug where oembed would not work. Thanks ot Michael & Vinicius
-*** Adds a filters for MarkDown 'help' text:** `wpmarkdown_help_text`  
+* Adds a filters for MarkDown 'help' text: `wpmarkdown_help_text`
 * Support for MarkDown extra (currently not supported in pagedown previewer)
 
 

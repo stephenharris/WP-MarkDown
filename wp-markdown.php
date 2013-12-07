@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.4
+Version: 1.5.0
 Author: Stephen Harris
 Author URI: http://stephenharris.info
 */
@@ -27,7 +27,7 @@ class WordPress_Markdown {
 	var $domain = 'markdown';
 
 	//Version
-	static $version ='1.4';
+	static $version ='1.5.0';
 
 	//Options and defaults
 	static $options = array(
@@ -434,12 +434,12 @@ class WordPress_Markdown {
 		$min = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
 		
 		//Register editor scripts &
-		wp_register_script( 'wp-markdown-convertor', $plugin_dir . "js/pagedown/Markdown.Converter{$min}.js", array(), self::$version );
-		wp_register_script( 'wp-markdown-sanitizer', $plugin_dir . "js/pagedown/Markdown.Sanitizer{$min}.js", array(), self::$version );
-		wp_register_script( 'wp-markdown-editor', $plugin_dir . "js/pagedown/Markdown.Editor{$min}.js", array('wp-markdown-convertor','wp-markdown-sanitizer'), self::$version );
+		wp_register_script( 'wp-markdown-convertor', $plugin_dir . "js/pagedown/markdown-converter{$min}.js", array(), self::$version );
+		wp_register_script( 'wp-markdown-sanitizer', $plugin_dir . "js/pagedown/markdown-sanitizer{$min}.js", array(), self::$version );
+		wp_register_script( 'wp-markdown-editor', $plugin_dir . "js/pagedown/markdown-editor{$min}.js", array('wp-markdown-convertor','wp-markdown-sanitizer'), self::$version );
 		
 		//Register prettify script
-		wp_register_script( 'wp-markdown-prettify',$plugin_dir. "js/prettify.js", array('jquery'), self::$version );
+		wp_register_script( 'wp-markdown-prettify',$plugin_dir. "js/prettify{$min}.js", array('jquery'), self::$version );
 		
 		//Register editor style 
 		wp_register_style( 'wp-markdown-editor', $plugin_dir.'css/markdown-editor.css', array(), self::$version );
