@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 			reporter: require('jshint-stylish'),
 			'-W020': true, //Read only - error when assigning WP_MARKDOWN_SCRIPT_DEBUG a value.
 		},
-		all: [ 'js/*.js', '!js/*.min.js' ]
+		all: ['js/**/*.js', '!js/**/*.min.js', '!js/pagedown/*', '!**/prettify.js' ],
   	},
   	
 	wp_readme_to_markdown: {
