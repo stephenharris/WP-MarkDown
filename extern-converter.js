@@ -1,2 +1,0 @@
-var exports;
-var require;
