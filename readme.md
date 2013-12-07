@@ -4,7 +4,7 @@
 **Tags:** markdown, formatting,prettify,syntax highlighter,code  
 **Requires at least:** 3.1  
 **Tested up to:** 3.6  
-**Stable tag:** 1.4  
+**Stable tag:** 1.5.0  
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
 
