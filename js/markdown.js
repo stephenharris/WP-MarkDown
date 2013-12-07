@@ -6,14 +6,15 @@ jQuery(document).ready(function($) {
 
 		var help = function () { 
 			$('#wmd-button-bar-help').toggle(300,'swing');
-		}
+		};
 
-		if($('#bbp_reply_content').length>0){
-			var id =  "bbp_reply_content";
-		}else if($('#bbp_topic_content').length>0){
-			var id =  "bbp_topic_content";
+		var id;
+		if( $('#bbp_reply_content').length > 0 ){
+			id =  "bbp_reply_content";
+		}else if( $('#bbp_topic_content').length > 0 ){
+			id =  "bbp_topic_content";
 		}else{
-			var id =  "comment";
+			id =  "comment";
 		}
 
 		if( $('#wmd-button-bar'+id ).length > 0 ){
@@ -25,9 +26,9 @@ jQuery(document).ready(function($) {
 			prettyPrint();
 			if( editor ){
 				editor.hooks.chain("onPreviewRefresh", function () {
-			        $('.wmd-preview pre').addClass('prettyprint');
-			        prettyPrint();
-   			 	});
+					$('.wmd-preview pre').addClass('prettyprint');
+					prettyPrint();
+				});
 			}
 		}
 
