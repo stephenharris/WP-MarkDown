@@ -156,7 +156,7 @@ class WordPress_Markdown {
 
 	function settings(){
 		//settings_fields('markdown'); 
-		echo '<p>'.__("Select the post types or comments that will support Markdown. Comments and bbPress forums can also feature a Markdown 'help bar' and previewer. Automatic syntax highlighting can be provided by <a href='http://code.google.com/p/google-code-prettify/' target='_blank'>Prettify</a>.",'wp-markdown'->domain).'</p>';
+		echo '<p>'.__("Select the post types or comments that will support Markdown. Comments and bbPress forums can also feature a Markdown 'help bar' and previewer. Automatic syntax highlighting can be provided by <a href='http://code.google.com/p/google-code-prettify/' target='_blank'>Prettify</a>.",'wp-markdown' ).'</p>';
 	}
 
 	function settings_posttypes(){
