@@ -541,7 +541,7 @@ function wpmarkdown_markdown_to_html( $markdown ){
 	return Markdown( $markdown );
 }
 
-if( !function_existss( 'Markdown' ) ){
+if( !function_exists( 'Markdown' ) ){
 	require_once( dirname( __FILE__) . '/markdown-extra.php' );
 }
 
@@ -549,7 +549,7 @@ if( !class_exists( 'Markdownify' ) ){
 	require_once( dirname( __FILE__) . '/markdownify/markdownify.php' );
 }
 
-if( !class_exists( 'Markdownify' ) ){
+if( !class_exists( 'Markdownify_Extra' ) ){
 	require_once( dirname( __FILE__) . '/markdownify/markdownify_extra.php' );
 }
 
