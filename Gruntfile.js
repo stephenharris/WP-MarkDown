@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 		build: {
 			files: [{
 				expand: true,     // Enable dynamic expansion.
-				src: ['js/*.js', '!js/*.min.js' ],
+				src: ['js/**/*.js', '!js/**/*.min.js' ],
 				ext: '.min.js',   // Dest filepaths will have this extension.
 			}]
 		}
