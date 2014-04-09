@@ -456,7 +456,6 @@ class WordPress_Markdown {
 
 			if( !is_admin() && $this->load_prettify() ){	
 				wp_enqueue_script( 'wp-markdown-prettify' );
-				wp_enqueue_style( 'wp-markdown-editor' );
 				wp_enqueue_style( 'wp-markdown-prettify' );
 			}
 		}
