@@ -65,23 +65,18 @@ module.exports = function(grunt) {
 		main: {
 			src:  [
 				'**',
+				'!*~',
 				'!node_modules/**',
 				'!build/**',
-				'!.git/**',
+				'!.git/**','!.gitignore','!.gitmodules',
 				'!tests/**',
 				'!vendor/**',
-				'!Gruntfile.js',
-				'!package.json',
-				'!.gitignore',
-				'!.gitmodules',
-				'!*~',
-				'!composer.lock',
-				'!composer.phar',
-				'!composer.json',
+				'!Gruntfile.js','!package.json',
+				'!composer.lock','!composer.phar','!composer.json',
 				'!CONTRIBUTING.md'
 			],
 			dest: 'build/wp-markdown/'
-		}		
+		},
 	},
 	
     checkrepo: {
