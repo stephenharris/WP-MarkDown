@@ -17,13 +17,13 @@
 .wmd-prompt-dialog > form > input[type="text"] {border: 1px solid #999999;color: black;}
 .wmd-prompt-dialog > form > input[type="button"]{font-family: trebuchet MS, helvetica, sans-serif;font-size: 0.8em;font-weight: bold;}
 
-/* Undoing bbPress styling */
-body.page .bbp-reply-form code, 
-body.page .bbp-topic-form code, 
-body.single-topic .bbp-reply-form code, 
-body.single-forum .bbp-topic-form code, 
-body.topic-edit .bbp-topic-form code, 
-body.reply-edit .bbp-reply-form code{width: auto;display: inline;padding: 5px;}
+/*Fix bbPress insanity */
+body.page .bbp-reply-form .wmd-preview code,
+body.page .bbp-topic-form .wmd-preview code,
+body.single-topic .bbp-reply-form .wmd-preview code,
+body.single-forum .bbp-topic-form .wmd-preview code,
+body.topic-edit .bbp-topic-form .wmd-preview code,
+body.reply-edit .bbp-reply-form .wmd-preview code{ display:inline; width: auto; padding:5px;}
 
 /*Markdown Admin*/
 #ed_toolbar .wmd-button-row{margin:5px 0px}
