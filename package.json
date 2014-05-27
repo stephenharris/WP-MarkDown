@@ -1,6 +1,6 @@
 {
   "name": "wp-markdown",
-  "version": "1.5.1",
+  "version": "1.6.0-a",
   "description": "Allows you to use MarkDown in posts, BBPress forums and comments",
   "main": "Gruntfile.js",
   "repository": {
