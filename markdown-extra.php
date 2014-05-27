@@ -12,8 +12,8 @@
 #
 
 
-define( 'MARKDOWN_VERSION',  "1.0.1q" ); # 11 Apr 2013
-define( 'MARKDOWNEXTRA_VERSION',  "1.2.7" ); # 11 Apr 2013
+define( 'MARKDOWN_VERSION',  "1.0.2" ); # 29 Nov 2013
+define( 'MARKDOWNEXTRA_VERSION',  "1.2.8" ); # 29 Nov 2013
 
 
 #
@@ -42,6 +42,8 @@ define( 'MARKDOWNEXTRA_VERSION',  "1.2.7" ); # 11 Apr 2013
 @define( 'MARKDOWN_CODE_ATTR_ON_PRE',   false );
 
 
+
+
 ### Standard Function Interface ###
 
 @define( 'MARKDOWN_PARSER_CLASS',  'MarkdownExtra_Parser' );
@@ -60,6 +62,8 @@ function Markdown($text) {
 	# Transform text using parser.
 	return $parser->transform($text);
 }
+
+
 
 ### bBlog Plugin Info ###
 
@@ -1372,8 +1376,15 @@ class Markdown_Parser {
 			>
 			}xi',
 			array(&$this, '_doAutoLinks_email_callback'), $text);
+		$text = preg_replace_callback('{<(tel:([^\'">\s]+))>}i',array(&$this, '_doAutoLinks_tel_callback'), $text);
 
 		return $text;
+	}
+	function _doAutoLinks_tel_callback($matches) {
+		$url = $this->encodeAttribute($matches[1]);
+		$tel = $this->encodeAttribute($matches[2]);
+		$link = "<a href=\"$url\">$tel</a>";
+		return $this->hashPart($link);
 	}
 	function _doAutoLinks_url_callback($matches) {
 		$url = $this->encodeAttribute($matches[1]);
@@ -1889,9 +1900,6 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 					<\?.*?\?> | <%.*?%>	# Processing instruction
 				|
 					<!\[CDATA\[.*?\]\]>	# CData Block
-				|
-					# Code span marker
-					`+
 				'. ( !$span ? ' # If not in span.
 				|
 					# Indented code block
@@ -1903,7 +1911,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 				|
 					# Fenced code block marker
 					(?<= ^ | \n )
-					[ ]{0,'.($indent+3).'}~{3,}
+					[ ]{0,'.($indent+3).'}(?:~{3,}|`{3,})
 									[ ]*
 					(?:
 					\.?[-_:a-zA-Z0-9]+ # standalone class name
@@ -1911,8 +1919,14 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 						'.$this->id_class_attr_nocatch_re.' # extra attributes
 					)?
 					[ ]*
-					\n
+					(?= \n )
 				' : '' ). ' # End (if not is span).
+				|
+					# Code span marker
+					# Note, this regex needs to go after backtick fenced
+					# code blocks but it should also be kept outside of the
+					# "if not in span" condition adding backticks to the parser
+					`+
 				)
 			}xs';
 
@@ -1955,27 +1969,11 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			$tag_re = preg_quote($tag); # For use in a regular expression.
 			
 			#
-			# Check for: Code span marker
-			#
-			if ($tag{0} == "`") {
-				# Find corresponding end marker.
-				$tag_re = preg_quote($tag);
-				if (preg_match('{^(?>.+?|\n(?!\n))*?(?<!`)'.$tag_re.'(?!`)}',
-					$text, $matches))
-				{
-					# End marker found: pass text unchanged until marker.
-					$parsed .= $tag . $matches[0];
-					$text = substr($text, strlen($matches[0]));
-				}
-				else {
-					# Unmatched marker: just skip it.
-					$parsed .= $tag;
-				}
-			}
-			#
 			# Check for: Fenced code block marker.
+			# Note: need to recheck the whole tag to disambiguate backtick
+			# fences from code spans
 			#
-			else if (preg_match('{^\n?([ ]{0,'.($indent+3).'})(~+)}', $tag, $capture)) {
+			if (preg_match('{^\n?([ ]{0,'.($indent+3).'})(~{3,}|`{3,})[ ]*(?:\.?[-_:a-zA-Z0-9]+|'.$this->id_class_attr_nocatch_re.')?[ ]*\n?$}', $tag, $capture)) {
 				# Fenced code block marker: find matching end marker.
 				$fence_indent = strlen($capture[1]); # use captured indent in re
 				$fence_re = $capture[2]; # use captured fence in re
@@ -1998,6 +1996,25 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 				# Indented code block: pass it unchanged, will be handled 
 				# later.
 				$parsed .= $tag;
+			}
+			#
+			# Check for: Code span marker
+			# Note: need to check this after backtick fenced code blocks
+			#
+			else if ($tag{0} == "`") {
+				# Find corresponding end marker.
+				$tag_re = preg_quote($tag);
+				if (preg_match('{^(?>.+?|\n(?!\n))*?(?<!`)'.$tag_re.'(?!`)}',
+					$text, $matches))
+				{
+					# End marker found: pass text unchanged until marker.
+					$parsed .= $tag . $matches[0];
+					$text = substr($text, strlen($matches[0]));
+				}
+				else {
+					# Unmatched marker: just skip it.
+					$parsed .= $tag;
+				}
 			}
 			#
 			# Check for: Opening Block level tag or
@@ -2812,11 +2829,11 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 				(?:\n|\A)
 				# 1: Opening marker
 				(
-					~{3,} # Marker: three tilde or more.
+					(?:~{3,}|`{3,}) # 3 or more tildes/backticks.
 				)
 				[ ]*
 				(?:
-					\.?([-_:a-zA-Z0-9]+) # 2: standalone class name
+					\.?([-+_:a-zA-Z0-9]+) # 2: standalone class name
 				|
 					'.$this->id_class_attr_catch_re.' # 3: Extra attributes
 				)?
@@ -2831,7 +2848,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 				)
 				
 				# Closing marker.
-				\1 [ ]* \n
+				\1 [ ]* (?= \n )
 			}xm',
 			array(&$this, '_doFencedCodeBlocks_callback'), $text);
 
