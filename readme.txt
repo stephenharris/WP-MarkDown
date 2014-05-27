@@ -4,7 +4,7 @@ Donate link: http://www.stephenharris.info
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
 Tested up to: 3.6
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 
 Allows Markdown to be enabled in posts, comments and bbPress forums. 
 
@@ -56,6 +56,9 @@ Use `<div markdown="1">`.
 
 
 == Changelog ==
+
+= 1.5.1 =
+* Addresses issues with (since withdrawn) 1.5 version
 
 = 1.5 =
 * Handle tables. See[#35](https://github.com/stephenharris/WP-MarkDown/issues/35)
