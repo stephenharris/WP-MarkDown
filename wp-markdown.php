@@ -2,11 +2,11 @@
 /*
 Plugin Name: WP-Markdown
 Description: Allows you to use MarkDown in posts, BBPress forums and comments
-Version: 1.5.0
+Version: 1.5.1
 Author: Stephen Harris
 Author URI: http://stephenharris.info
 */
-/*  Copyright 2011 Stephen Harris (stephen@harriswebsolutions.co.uk)
+/*  Copyright 2011 Stephen Harris (contact@stephenharris.info)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ class WordPress_Markdown {
 	var $domain = 'markdown';
 
 	//Version
-	static $version ='1.5.0';
+	static $version ='1.5.1';
 
 	//Options and defaults
 	static $options = array(
