@@ -519,13 +519,22 @@ class WordPress_Markdown {
 
 
 /**
- * Converts HTML into markdown
+ * Converts HTML into markdown.
  * 
- * @param string $html
- * @return string markdown
+ * Optionally you can specify where it should first balance the tags in the 
+ * given HTML {@see balanceTags}.
+ * 
+ * @uses   balanceTags
+ * @param  string $html                The HTML to convert to markdown
+ * @param  bool   $balance_tags  If true, balances HTML tags. Default true.
+ * @return string The generated markdown
  */
-function wpmarkdown_html_to_markdown( $html ){
+function wpmarkdown_html_to_markdown( $html, $balance_tags = true ){
 	$md = new Markdownify_Extra;
+	$balance_tags = apply_filters( 'wp_markdown_balance_tags', $balance_tags );
+	if( $balance_tags ){
+		$html = force_balance_tags( $html );
+	}
 	$markdown = $md->parseString( $html );
 	return $markdown;
 }
