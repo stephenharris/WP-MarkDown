@@ -497,7 +497,8 @@ class WordPress_Markdown {
 
 	function admin_footers_script(){
 	?> <script>
-		jQuery(document).ready(function($) {                
+	(function($) {
+		window.onload = function(){
 			$('#wp-content-editor-container').after("<div id='wmd-previewcontent' class='wmd-panel wmd-preview prettyprint'></div>");
 			$('#ed_toolbar').html("<div id='wmd-button-barcontent'></div>");
 			var converter = new Markdown.getSanitizingConverter();
@@ -512,7 +513,8 @@ class WordPress_Markdown {
 					prettyPrint();
    				 });
 			}
-		});
+		}
+	})(jQuery);
 		</script><?php
 	}
 }
