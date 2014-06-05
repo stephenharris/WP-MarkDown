@@ -108,7 +108,7 @@ class WordPress_Markdown {
 		}
 	
 		//Register scripts
-		add_action('wp_enqueue_scripts', array($this,'register_scripts'));
+		add_action('wp_enqueue_scripts', array( $this,'register_scripts' ) );
 		
 		//Ensures scripts/styles are queued (in particular on home page)
 		if( $this->get_option( 'prettify') )
