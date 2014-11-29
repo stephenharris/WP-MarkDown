@@ -439,7 +439,7 @@ class WordPress_Markdown {
 		wp_register_script( 'wp-markdown-editor', $plugin_dir . "js/pagedown/markdown-editor{$min}.js", array('wp-markdown-convertor','wp-markdown-sanitizer'), self::$version );
 		
 		//Register prettify script
-		wp_register_script( 'wp-markdown-prettify',$plugin_dir. "js/prettify{$min}.js", array('jquery'), self::$version );
+		wp_register_script( 'wp-markdown-prettify', $plugin_dir. "js/prettify{$min}.js", array('jquery'), self::$version, true );
 		
 		//Register editor style 
 		wp_register_style( 'wp-markdown-editor', $plugin_dir.'css/markdown-editor.css', array(), self::$version );
