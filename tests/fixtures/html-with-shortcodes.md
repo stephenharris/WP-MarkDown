@@ -1,0 +1,5 @@
+This is a snippet of HTML with [shortcode][another_shortcode] and \[shortcode\]\[1\] 
+
+The former could be two shortcodes, and so **shouldn't** be escaped. The latter is unlikely to be shortcodes, and so **should** be escaped.
+
+This is a snippet of HTML with [shortcode] and then a (bracket) 
