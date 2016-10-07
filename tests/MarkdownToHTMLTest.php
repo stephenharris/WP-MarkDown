@@ -433,10 +433,17 @@ class MarkdownToHTMLTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
 	}
 
+	public function testCodeBlocks()
+	{
+		$md = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block.md' );
+		$html = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block.html' );
+		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
+	}
+
 	public function testCodeBlocksWithFences()
 	{
 		$md = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block-fences.md' );
-		$html = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block.html' );
+		$html = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block-with-code-class.html' );
 		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
 	}
 
