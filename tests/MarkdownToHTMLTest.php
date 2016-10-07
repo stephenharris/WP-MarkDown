@@ -1,6 +1,6 @@
 <?php
 
-class MarkdownTest extends PHPUnit_Framework_TestCase
+class MarkdownToHTMLTest extends PHPUnit_Framework_TestCase
 {
 	
 	public function testAmpsAndAngles()
