@@ -447,4 +447,18 @@ class MarkdownToHTMLTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
 	}
 
+	public function testNewLinesWithSpaces()
+	{
+		$md = file_get_contents( WP_MARKDOWN_FIXTURES . '/newlines/newlines-with-spaces.md' );
+		$html = file_get_contents( WP_MARKDOWN_FIXTURES . '/newlines/newlines.html' );
+		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
+	}
+
+	public function testNewLinesWithBR()
+	{
+		$md = file_get_contents( WP_MARKDOWN_FIXTURES . '/newlines/newlines-with-br.md' );
+		$html = file_get_contents( WP_MARKDOWN_FIXTURES . '/newlines/newlines.html' );
+		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
+	}
+
 }
