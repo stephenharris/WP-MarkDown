@@ -1,13 +1,7 @@
 *~
-.project
-.settings
-.buildpath
-.metadata
-compiler.jar
-externs.js
-externs-converter.js
-Makefile
+.*
+*.iml
+!.gitignore
 node_modules
 vendor
-/composer.phar
 build
