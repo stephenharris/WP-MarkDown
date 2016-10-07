@@ -1,5 +1,5 @@
 <?php
-//TODO 2
+
 class MarkdownTest extends PHPUnit_Framework_TestCase
 {
 	
@@ -416,8 +416,7 @@ class MarkdownTest extends PHPUnit_Framework_TestCase
     		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
 	}
     
-   	public function testGeneral()
-    	{
+   	public function testGeneral() {
 		$this->markTestIncomplete();
 
     		ob_start();
@@ -433,4 +432,12 @@ class MarkdownTest extends PHPUnit_Framework_TestCase
 		//file_put_contents( 'table-actual.md', wpmarkdown_html_to_markdown( $html ) );
 		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
 	}
+
+	public function testCodeBlocksWithFences()
+	{
+		$md = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block-fences.md' );
+		$html = file_get_contents( WP_MARKDOWN_FIXTURES . '/code-block.html' );
+		$this->assertEquals( $html,  wpmarkdown_markdown_to_html( $md ) );
+	}
+
 }

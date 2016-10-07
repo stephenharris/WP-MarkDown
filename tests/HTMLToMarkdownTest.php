@@ -1,5 +1,4 @@
 <?php
-//TODO 3
 
 class MarkdownifyTest extends PHPUnit_Framework_TestCase
 {
