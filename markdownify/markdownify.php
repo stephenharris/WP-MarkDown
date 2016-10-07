@@ -61,50 +61,50 @@ class Markdownify {
    *
    * @var parseHTML
    */
-  var $parser;
+  public $parser;
   /**
    * markdown output
    *
    * @var string
    */
-  var $output;
+  public $output;
   /**
    * stack with tags which where not converted to html
    *
    * @var array<string>
    */
-  var $notConverted = array();
+  public $notConverted = array();
   /**
    * skip conversion to markdown
    *
    * @var bool
    */
-  var $skipConversion = false;
+  public $skipConversion = false;
   /* options */
   /**
    * keep html tags which cannot be converted to markdown
    *
    * @var bool
    */
-  var $keepHTML = false;
+  public $keepHTML = false;
   /**
    * wrap output, set to 0 to skip wrapping
    *
    * @var int
    */
-  var $bodyWidth = 0;
+  public $bodyWidth = 0;
   /**
    * minimum body width
    *
    * @var int
    */
-  var $minBodyWidth = 25;
+  public $minBodyWidth = 25;
   /**
    * display links after each paragraph
    *
    * @var bool
    */
-  var $linksAfterEachParagraph = false;
+  public $linksAfterEachParagraph = false;
   /**
    * constructor, set options, setup parser
    *
@@ -116,7 +116,7 @@ class Markdownify {
    *             defaults to true (HTML will be kept)
    * @return void
    */
-  function Markdownify($linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML) {
+  public function __construct($linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML) {
     $this->linksAfterEachParagraph = $linksAfterEachParagraph;
     $this->keepHTML = $keepHTML;
 
@@ -147,7 +147,7 @@ class Markdownify {
    * @param string $html
    * @return string markdown formatted
    */
-  function parseString($html) {
+  public function parseString($html) {
     $this->parser->html = $html;
     $this->parse();
     return $this->output;
@@ -157,7 +157,7 @@ class Markdownify {
    *
    * @var array<string>
    */
-  var $isMarkdownable = array(
+  public $isMarkdownable = array(
     'p' => array(),
     'ul' => array(),
     'ol' => array(),
@@ -192,7 +192,7 @@ class Markdownify {
    *
    * @var array<string>
    */
-  var $ignore = array(
+  public $ignore = array(
     'html',
     'body',
   );
@@ -201,7 +201,7 @@ class Markdownify {
    *
    * @var array<string>
    */
-  var $drop = array(
+  public $drop = array(
     //'script',
     'head',
    // 'style',
@@ -217,7 +217,7 @@ class Markdownify {
    *
    * @var array<string>
    */
-  var $wrappableIndents = array(
+  public $wrappableIndents = array(
     '\*   ', # ul
     '\d.  ', # ol
     '\d\d. ', # ol
@@ -235,7 +235,7 @@ class Markdownify {
    *
    * TODO: what's with block chars / sequences at the beginning of a block?
    */
-  var $escapeInText = array(
+  public $escapeInText = array(
     '^([-*_])([ ]{0,2}\1){2,}$' => '\\\\$0', # hr
     '\*\*([^*\s]+)\*\*' => '\*\*$1\*\*', # strong
     '\*([^*\s]+)\*' => '\*$1\*', # em
@@ -252,13 +252,13 @@ class Markdownify {
    *
    * @var bool
    */
-  var $lastWasBlockTag = false;
+  public $lastWasBlockTag = false;
   /**
    * name of last closed tag
    *
    * @var string
    */
-  var $lastClosedTag = '';
+  public $lastClosedTag = '';
   /**
    * iterate through the nodes and decide what we
    * shall do with the current node
@@ -266,7 +266,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function parse() {
+  public function parse() {
     $this->output = '';
     # drop tags
     $this->parser->html = preg_replace('#<('.implode('|', $this->drop).')[^>]*>.*</\\1>#sU', '', $this->parser->html);
@@ -349,7 +349,7 @@ class Markdownify {
    * @param void
    * @return bool
    */
-  function isMarkdownable() {
+  public function isMarkdownable() {
     if (!isset($this->isMarkdownable[$this->parser->tagName])) {
       # simply not markdownable
       return false;
@@ -390,7 +390,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function flushStacked() {
+  public function flushStacked() {
     # links
     foreach ($this->stack as $tag => $a) {
       if (!empty($a)) {
@@ -404,7 +404,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function flushStacked_a() {
+  public function flushStacked_a() {
     $out = false;
     foreach ($this->stack['a'] as $k => $tag) {
       if (!isset($tag['unstacked'])) {
@@ -426,7 +426,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function flushLinebreaks() {
+  public function flushLinebreaks() {
     if ($this->lineBreaks && !empty($this->output)) {
       $this->out(str_repeat("\n".$this->indent, $this->lineBreaks), true);
     }
@@ -438,7 +438,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTagToText() {
+  public function handleTagToText() {
     if (!$this->keepHTML) {
       if (!$this->parser->isStartTag && $this->parser->isBlockElement) {
         $this->setLineBreaks(2);
@@ -524,7 +524,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleText() {
+  public function handleText() {
     if ($this->hasParent('pre') && strpos($this->parser->node, "\n") !== false) {
       $this->parser->node = str_replace("\n", "\n".$this->indent, $this->parser->node);
     }
@@ -547,10 +547,10 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_em() {
+  public function handleTag_em() {
     $this->out('*', true);
   }
-  function handleTag_i() {
+  public function handleTag_i() {
     $this->handleTag_em();
   }
   /**
@@ -559,10 +559,10 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_strong() {
+  public function handleTag_strong() {
     $this->out('**', true);
   }
-  function handleTag_b() {
+  public function handleTag_b() {
     $this->handleTag_strong();
   }
   /**
@@ -571,7 +571,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_h1() {
+  public function handleTag_h1() {
     $this->handleHeader(1);
   }
   /**
@@ -580,7 +580,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_h2() {
+  public function handleTag_h2() {
     $this->handleHeader(2);
   }
   /**
@@ -589,7 +589,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_h3() {
+  public function handleTag_h3() {
     $this->handleHeader(3);
   }
   /**
@@ -598,7 +598,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_h4() {
+  public function handleTag_h4() {
     $this->handleHeader(4);
   }
   /**
@@ -607,7 +607,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_h5() {
+  public function handleTag_h5() {
     $this->handleHeader(5);
   }
   /**
@@ -616,20 +616,20 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_h6() {
+  public function handleTag_h6() {
     $this->handleHeader(6);
   }
   /**
    * number of line breaks before next inline output
    */
-  var $lineBreaks = 0;
+  public $lineBreaks = 0;
   /**
    * handle header tags (<h1> - <h6>)
    *
    * @param int $level 1-6
    * @return void
    */
-  function handleHeader($level) {
+  public function handleHeader($level) {
     if ($this->parser->isStartTag) {
       $this->out(str_repeat('#', $level).' ', true);
     } else {
@@ -642,7 +642,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_p() {
+  public function handleTag_p() {
     if (!$this->parser->isStartTag) {
       $this->setLineBreaks(2);
     }
@@ -653,7 +653,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_a() {
+  public function handleTag_a() {
     if ($this->parser->isStartTag) {
       $this->buffer();
       if (isset($this->parser->tagAttributes['title'])) {
@@ -712,7 +712,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_img() {
+  public function handleTag_img() {
     if (!$this->parser->isStartTag) {
       return; # just to be sure this is really an empty tag...
     }
@@ -778,7 +778,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_code() {
+  public function handleTag_code() {
     if ($this->hasParent('pre')) {
       # ignore code blocks inside <pre>
       return;
@@ -814,7 +814,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_pre() {
+  public function handleTag_pre() {
     if ($this->keepHTML && $this->parser->isStartTag) {
       # check if a simple <code> follows
       if (!preg_match('#^\s*<code\s*>#Us', $this->parser->html)) {
@@ -836,7 +836,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_blockquote() {
+  public function handleTag_blockquote() {
     $this->indent('> ');
   }
   /**
@@ -845,7 +845,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_ul() {
+  public function handleTag_ul() {
     if ($this->parser->isStartTag) {
       $this->stack();
       if (!$this->keepHTML && $this->lastClosedTag == $this->parser->tagName) {
@@ -865,7 +865,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_ol() {
+  public function handleTag_ol() {
     # same as above
     $this->parser->tagAttributes['num'] = 0;
     $this->handleTag_ul();
@@ -876,7 +876,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_li() {
+  public function handleTag_li() {
     if ($this->parent() == 'ol') {
       $parent =& $this->getStacked('ol');
       if ($this->parser->isStartTag) {
@@ -900,7 +900,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_hr() {
+  public function handleTag_hr() {
     if (!$this->parser->isStartTag) {
       return; # just to be sure this really is an empty tag
     }
@@ -913,7 +913,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_br() {
+  public function handleTag_br() {
     $this->out("  \n".$this->indent, true);
     $this->parser->html = ltrim($this->parser->html);
   }
@@ -922,7 +922,7 @@ class Markdownify {
    *
    * @var array<array>
    */
-  var $stack = array();
+  public $stack = array();
   /**
    * add current node to the stack
    * this only stores the attributes
@@ -930,7 +930,7 @@ class Markdownify {
    * @param void
    * @return void
    */
-  function stack() {
+  public function stack() {
     if (!isset($this->stack[$this->parser->tagName])) {
       $this->stack[$this->parser->tagName] = array();
     }
@@ -942,7 +942,7 @@ class Markdownify {
    * @param void
    * @return array
    */
-  function unstack() {
+  public function unstack() {
     if (!isset($this->stack[$this->parser->tagName]) || !is_array($this->stack[$this->parser->tagName])) {
       trigger_error('Trying to unstack from empty stack. This must not happen.', E_USER_ERROR);
     }
@@ -954,7 +954,7 @@ class Markdownify {
    * @param string $tagName
    * @return array
    */
-  function & getStacked($tagName) {
+  public function & getStacked($tagName) {
     // no end() so it can be referenced
     return $this->stack[$tagName][count($this->stack[$tagName])-1];
   }
@@ -964,7 +964,7 @@ class Markdownify {
    * @param int $number
    * @return void
    */
-  function setLineBreaks($number) {
+  public function setLineBreaks($number) {
     if ($this->lineBreaks < $number) {
       $this->lineBreaks = $number;
     }
@@ -974,14 +974,14 @@ class Markdownify {
    *
    * @var array<string>
    */
-  var $buffer = array();
+  public $buffer = array();
   /**
    * buffer next parser output until unbuffer() is called
    *
    * @param void
    * @return void
    */
-  function buffer() {
+  public function buffer() {
     array_push($this->buffer, '');
   }
   /**
@@ -990,7 +990,7 @@ class Markdownify {
    * @param void
    * @return string
    */
-  function unbuffer() {
+  public function unbuffer() {
     return array_pop($this->buffer);
   }
   /**
@@ -1001,7 +1001,7 @@ class Markdownify {
    * @param string $put
    * @return void
    */
-  function out($put, $nowrap = false) {
+  public function out($put, $nowrap = false) {
   	if ( $put !== '0' && empty( $put ) ) {
       return;
     }
@@ -1052,7 +1052,7 @@ class Markdownify {
    *
    * @var string
    */
-  var $indent = '';
+  public $indent = '';
   /**
    * indent next output (start tag) or unindent (end tag)
    *
@@ -1060,7 +1060,7 @@ class Markdownify {
    * @param bool $output add indendation to output
    * @return void
    */
-  function indent($str, $output = true) {
+  public function indent($str, $output = true) {
     if ($this->parser->isStartTag) {
       $this->indent .= $str;
       if ($output) {
@@ -1076,7 +1076,7 @@ class Markdownify {
    * @author derernst@gmx.ch <http://www.php.net/manual/en/function.html-entity-decode.php#68536>
    * @author Milian Wolff <http://milianw.de>
    */
-  function decode($text, $quote_style = ENT_QUOTES) {
+  public function decode($text, $quote_style = ENT_QUOTES) {
     if (version_compare(PHP_VERSION, '5', '>=')) {
       # UTF-8 is only supported in PHP 5.x.x and above
       $text = html_entity_decode($text, $quote_style, 'UTF-8');
@@ -1101,7 +1101,7 @@ class Markdownify {
    * @param array $matches
    * @return string UTF-8 encoded
    */
-  function _decode_hex($matches) {
+  public function _decode_hex($matches) {
     return $this->unichr(hexdec($matches[1]));
   }
   /**
@@ -1110,7 +1110,7 @@ class Markdownify {
    * @param array $matches
    * @return string UTF-8 encoded
    */
-  function _decode_numeric($matches) {
+  public function _decode_numeric($matches) {
     return $this->unichr($matches[1]);
   }
   /**
@@ -1120,7 +1120,7 @@ class Markdownify {
    * @param array $matches
    * @return string UTF-8 encoded
    */
-  function unichr($dec) {
+  public function unichr($dec) {
     if ($dec < 128) {
       $utf = chr($dec);
     } else if ($dec < 2048) {
@@ -1142,7 +1142,7 @@ class Markdownify {
    * @author dtorop 932 at hotmail dot com <http://www.php.net/manual/en/function.strlen.php#37975>
    * @author Milian Wolff <http://milianw.de>
    */
-  function strlen($str) {
+  public function strlen($str) {
     if (function_exists('mb_strlen')) {
       return mb_strlen($str, 'UTF-8');
     } else {
@@ -1157,7 +1157,7 @@ class Markdownify {
   * @param string $what
   * @return string
   */
-  function wordwrap($str, $width, $break, $cut = false){
+  public function wordwrap($str, $width, $break, $cut = false){
     if (!$cut) {
       $regexp = '#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){1,'.$width.'}\b#';
     } else {
@@ -1181,7 +1181,7 @@ class Markdownify {
    * @param string $tagName
    * @return bool
    */
-  function hasParent($tagName) {
+  public function hasParent($tagName) {
     return in_array($tagName, $this->parser->openTags);
   }
   /**
@@ -1190,7 +1190,7 @@ class Markdownify {
    * @param void
    * @return string $tagName
    */
-  function parent() {
+  public function parent() {
     return end($this->parser->openTags);
   }
 }
