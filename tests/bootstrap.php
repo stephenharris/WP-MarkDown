@@ -1,4 +1,7 @@
 <?php
+
+define( 'WP_MARKDOWN_FIXTURES', dirname( __FILE__ ) . '/fixtures' );
+
 //Load the test library...
 $_tests_dir = getenv('WP_TESTS_DIR');
 if ( !$_tests_dir ) $_tests_dir = '/tmp/wordpress-tests-lib';
