@@ -3,8 +3,8 @@ Contributors: stephenharris
 Donate link: http://www.stephenharris.info
 Tags: markdown, formatting,prettify,syntax highlighter,code
 Requires at least: 3.1
-Tested up to: 3.6
-Stable tag: 1.5.1
+Tested up to: 4.9.1
+Stable tag: 1.6.0
 
 Allows Markdown to be enabled in posts, comments and bbPress forums.
 
@@ -55,6 +55,14 @@ Use `<div markdown="1">`.
 
 
 == Changelog ==
+
+= 1.6 - 25th December 2017 =
+
+* Fixed PHP7 deprecation notices
+* Load prettify.js in the footer (See [#60](https://github.com/stephenharris/WP-MarkDown/pull/60/) )
+* Ensure the toolbar javascript runs as late as possible. Fixes conflict with Shortcoder which calls Qtags late on and destroys the markdown toolbar. Fixes [#53](https://github.com/stephenharris/WP-MarkDown/pull/53/).
+* Update markdown extra version. Thanks to @lite3. Closes [#43](https://github.com/stephenharris/WP-MarkDown/pull/43/).
+* By default balance tags before HTML is converted to markdown. (Adds filter to prevent this behaviour). See [#47](https://github.com/stephenharris/WP-MarkDown/pull/47/).
 
 = 1.5.1 =
 * Addresses issues with (since withdrawn) 1.5.0 version.
