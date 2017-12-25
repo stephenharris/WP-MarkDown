@@ -3,35 +3,22 @@ language: php
 sudo: false
 
 php:
-- 5.3
 - 5.4
 - 5.5
 - 5.6
 - hhvm
-- 7
+- 7.0
+- 7.1
+- 7.2
 
 env:
 - WP_VERSION=nightly
 - WP_VERSION=latest
-- WP_VERSION=4.5.4
-- WP_VERSION=4.4.3
-- WP_VERSION=4.3.4
+- WP_VERSION=4.8.4
 
 matrix:
-  exclude:
-    - php: 7
-      env: WP_VERSION=3.8.14
-    - php: 7
-      env: WP_VERSION=3.9.12
-    - php: 7
-      env: WP_VERSION=4.0.11
-    - php: 7
-      env: WP_VERSION=4.1.11
-    - php: 7
-      env: WP_VERSION=4.2.8
   allow_failures:
     - env: WP_VERSION=nightly
-    - php: 7
 
 install:
 - composer install
